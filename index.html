@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biomarker Time Series Dashboard - EcoTown Health Tech</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/dashboard.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-gray-900">Biomarker Dashboard</h1>
+                        <p class="text-sm text-gray-500">EcoTown Health Tech</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-right">
+                        <p class="text-sm font-medium text-gray-900" id="patient-name">Loading...</p>
+                        <p class="text-sm text-gray-500" id="patient-info">Loading...</p>
+                    </div>
+                    <div class="flex flex-col space-y-2">
+                        <label for="date-range" class="text-sm font-medium text-gray-700">Date Range:</label>
+                        <select id="date-range" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="3">Last 3 months</option>
+                            <option value="6" selected>Last 6 months</option>
+                            <option value="12">Last 12 months</option>
+                            <option value="all">All data</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <!-- Dashboard Overview Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-bold">♥</span>
+                            </div>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Total Cholesterol</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900" id="current-cholesterol">--</div>
+                                    <div class="ml-2 flex items-baseline text-sm font-semibold" id="cholesterol-status">
+                                        <span class="sr-only">Status</span>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-bold">K</span>
+                            </div>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Kidney Function</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900" id="current-creatinine">--</div>
+                                    <div class="ml-2 flex items-baseline text-sm font-semibold" id="creatinine-status">
+                                        <span class="sr-only">Status</span>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-bold">D</span>
+                            </div>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Vitamin D</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900" id="current-vitamin-d">--</div>
+                                    <div class="ml-2 flex items-baseline text-sm font-semibold" id="vitamin-d-status">
+                                        <span class="sr-only">Status</span>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-bold">A1c</span>
+                            </div>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">HbA1c</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900" id="current-hba1c">--</div>
+                                    <div class="ml-2 flex items-baseline text-sm font-semibold" id="hba1c-status">
+                                        <span class="sr-only">Status</span>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Chart Container -->
+        <div class="bg-white shadow rounded-lg p-6 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-lg font-medium text-gray-900">Biomarker Trends</h2>
+                <div class="flex space-x-3">
+                    <select id="chart-type" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="lipid">Lipid Profile</option>
+                        <option value="kidney">Kidney Function</option>
+                        <option value="vitamins">Vitamins</option>
+                        <option value="diabetes">Diabetes Markers</option>
+                        <option value="all">All Biomarkers</option>
+                    </select>
+                    <button id="export-btn" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Export PNG
+                    </button>
+                </div>
+            </div>
+            <div class="relative h-96">
+                <canvas id="main-chart"></canvas>
+            </div>
+        </div>
+
+        <!-- Individual Biomarker Cards Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Lipid Profile Card -->
+            <div class="bg-white shadow rounded-lg p-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Lipid Profile</h3>
+                <div class="relative h-64">
+                    <canvas id="lipid-chart"></canvas>
+                </div>
+                <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <span class="font-medium text-gray-600">Total Cholesterol:</span>
+                        <span id="lipid-total" class="ml-1">--</span>
+                    </div>
+                    <div>
+                        <span class="font-medium text-gray-600">LDL:</span>
+                        <span id="lipid-ldl" class="ml-1">--</span>
+                    </div>
+                    <div>
+                        <span class="font-medium text-gray-600">HDL:</span>
+                        <span id="lipid-hdl" class="ml-1">--</span>
+                    </div>
+                    <div>
+                        <span class="font-medium text-gray-600">Triglycerides:</span>
+                        <span id="lipid-triglycerides" class="ml-1">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kidney Function Card -->
+            <div class="bg-white shadow rounded-lg p-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Kidney Function</h3>
+                <div class="relative h-64">
+                    <canvas id="kidney-chart"></canvas>
+                </div>
+                <div class="mt-4 text-sm">
+                    <div>
+                        <span class="font-medium text-gray-600">Creatinine:</span>
+                        <span id="kidney-creatinine" class="ml-1">--</span>
+                    </div>
+                    <div class="mt-2 text-xs text-gray-500">
+                        Normal range: 70-120 μmol/L (male)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vitamin Levels Card -->
+            <div class="bg-white shadow rounded-lg p-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Vitamin Levels</h3>
+                <div class="relative h-64">
+                    <canvas id="vitamin-chart"></canvas>
+                </div>
+                <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <span class="font-medium text-gray-600">Vitamin D:</span>
+                        <span id="vitamin-d-value" class="ml-1">--</span>
+                    </div>
+                    <div>
+                        <span class="font-medium text-gray-600">Vitamin B12:</span>
+                        <span id="vitamin-b12-value" class="ml-1">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diabetes Marker Card -->
+            <div class="bg-white shadow rounded-lg p-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Diabetes Marker</h3>
+                <div class="relative h-64">
+                    <canvas id="diabetes-chart"></canvas>
+                </div>
+                <div class="mt-4 text-sm">
+                    <div>
+                        <span class="font-medium text-gray-600">HbA1c:</span>
+                        <span id="diabetes-hba1c" class="ml-1">--</span>
+                    </div>
+                    <div class="mt-2 text-xs text-gray-500">
+                        Normal: &lt;6.0%, Prediabetes: 6.0-6.4%, Diabetes: ≥6.5%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clinical Interpretations Footer -->
+        <div class="bg-white shadow rounded-lg p-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Clinical Interpretations & Recommendations</h3>
+            <div id="clinical-insights" class="space-y-3">
+                <!-- Clinical insights will be populated by JavaScript -->
+            </div>
+            <div class="mt-6 p-4 bg-gray-50 rounded-md">
+                <p class="text-sm text-gray-600">
+                    <strong>Important Note:</strong> This dashboard is for informational purposes only and should not replace professional medical advice. 
+                    Always consult with your healthcare provider for proper interpretation of your biomarker results and treatment recommendations.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Spinner -->
+    <div id="loading-overlay" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <div class="flex items-center space-x-3">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                <span class="text-gray-700">Loading biomarker data...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="static/js/dashboard.js"></script>
+</body>
+</html>
