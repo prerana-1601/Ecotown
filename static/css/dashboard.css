@@ -1,0 +1,196 @@
+/* Custom Dashboard Styles */
+.chart-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+}
+
+/* Loading animations */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Status indicators */
+.status-optimal {
+    color: #22c55e;
+}
+
+.status-borderline {
+    color: #f59e0b;
+}
+
+.status-high {
+    color: #ef4444;
+}
+
+.status-very-high {
+    color: #dc2626;
+}
+
+/* Chart legend custom styling */
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    margin-right: 0.5rem;
+}
+
+/* Responsive design enhancements */
+@media (max-width: 768px) {
+    .chart-container {
+        height: 300px;
+    }
+    
+    .grid-responsive {
+        grid-template-columns: 1fr;
+    }
+    
+    .text-responsive {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .chart-container {
+        height: 250px;
+    }
+    
+    .card-padding {
+        padding: 1rem;
+    }
+}
+
+/* Clinical range indicator styles */
+.range-indicator {
+    height: 4px;
+    border-radius: 2px;
+    margin: 0.5rem 0;
+    position: relative;
+}
+
+.range-indicator::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid #374151;
+}
+
+/* Hover effects */
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Export button styling */
+.export-btn:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+}
+
+/* Custom scrollbar for smaller screens */
+@media (max-width: 1024px) {
+    .overflow-x-auto::-webkit-scrollbar {
+        height: 4px;
+    }
+    
+    .overflow-x-auto::-webkit-scrollbar-track {
+        background: #f1f5f9;
+    }
+    
+    .overflow-x-auto::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 2px;
+    }
+}
+
+/* Clinical insight styles */
+.insight-card {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid;
+    margin-bottom: 0.75rem;
+}
+
+.insight-optimal {
+    background-color: #f0fdf4;
+    border-color: #22c55e;
+}
+
+.insight-warning {
+    background-color: #fffbeb;
+    border-color: #f59e0b;
+}
+
+.insight-critical {
+    background-color: #fef2f2;
+    border-color: #ef4444;
+}
+
+/* Trend indicators */
+.trend-up {
+    color: #ef4444;
+}
+
+.trend-down {
+    color: #22c55e;
+}
+
+.trend-stable {
+    color: #6b7280;
+}
+
+/* Loading skeleton */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, transparent 37%, #f0f0f0 63%);
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.4s ease infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+/* Print styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    .print-full-width {
+        width: 100% !important;
+        max-width: none !important;
+    }
+}
